@@ -10,6 +10,7 @@ function App() {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         console.log(position)
+        console.log("dsad")
         setLocation([position.coords.latitude, position.coords.longitude]);
       },
       (error) => console.error(error),
