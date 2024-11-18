@@ -54,6 +54,8 @@ L.Icon.Default.mergeOptions({
 
 const Map = ({ location }) => {
   const zoomLevel = 18; // Define your zoom level here
+
+ 
   return (
     <MapContainer
       center={location}
