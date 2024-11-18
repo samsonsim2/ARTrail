@@ -4,26 +4,43 @@ import Map from "./components/Map";
 import { useEffect, useState } from "react";
  
 function App() {
-  const [location, setLocation] = useState([1.3521, 103.8198]); // Default location (London)
+  const [location, setLocation] = useState([1.3521, 103.8198]); // Default location: Singapore
+  const [permissionError, setPermissionError] = useState(null);
 
   useEffect(() => {
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        console.log(position)
-        console.log("dsad")
-        setLocation([position.coords.latitude, position.coords.longitude]);
-      },
-      (error) => console.error(error),
-      { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
-    );
-
-    return () => navigator.geolocation.clearWatch(watchId);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position)
+          setLocation([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            setPermissionError("Location access denied by user.");
+          } else {
+            setPermissionError("Error accessing location services.");
+          }
+          console.error(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        }
+      );
+    } else {
+      setPermissionError("Geolocation is not supported by this browser.");
+    }
   }, []);
 
   return (
     <div className="App">
-   
-      <Map location={location} />
+     
+      {permissionError ? (
+        <p style={{ color: 'red' }}>{permissionError}</p>
+      ) : (
+        <Map location={location} />
+      )}
     </div>
   );
 }
