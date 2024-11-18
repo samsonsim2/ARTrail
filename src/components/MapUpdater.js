@@ -6,7 +6,7 @@ const MapUpdater = ({ location, zoomLevel }) => {
 
   useEffect(() => {
     if (location) {
-      map.flyTo(location, zoomLevel, { duration: 2 });
+      map.flyTo(location, 18, { duration: 2 });
     }
   }, [location, zoomLevel, map]);
 
