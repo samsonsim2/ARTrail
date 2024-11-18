@@ -11,8 +11,8 @@ function App() {
     const audio = new Audio("/bell.mp3"); // Replace with your audio file path
     audio.play();
   };
-
-  const targetLocation = { lat: 1.317822015148354, lng: 103.912256304845 };
+ 
+  const targetLocation = { lat:    1.3180789479021646, lng:103.91234861705682 };
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
@@ -34,10 +34,10 @@ function App() {
   return (
     <div className="App">
       <div>
-        <button style={{ display: distance <= 25 ? 'block' : 'none' }} onClick={playAudio}>Play Audio</button>
+        <button style={{ display: distance <= 15 ? 'block' : 'none' }} onClick={playAudio}>Play Audio</button>
         {distance && <p>Distance to target: {distance.toFixed(2)} meters</p>}
       </div>
-      <Map location={location} />
+      <Map location={location} targetLocation={targetLocation} />
     </div>
   );
 }

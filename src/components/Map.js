@@ -52,10 +52,17 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const Map = ({ location }) => {
+const Map = ({ location,targetLocation }) => {
   const zoomLevel = 18; // Define your zoom level here
 
- 
+   // Create a custom divIcon with a colored marker
+   const customIcon = L.divIcon({
+    className: 'custom-marker',
+    html: '<div style="background-color: red; width: 30px; height: 30px; border-radius: 50%;"></div>', // Customize color here
+    iconSize: [30, 30],
+    iconAnchor: [15, 15] // Position the icon correctly
+  });
+
   return (
     <MapContainer
       center={location}
@@ -74,7 +81,9 @@ const Map = ({ location }) => {
       <Marker position={location}>
         <Popup>Current Location</Popup>
       </Marker>
-
+      <Marker position={targetLocation}  icon={customIcon}>
+        <Popup>Current Location</Popup>
+      </Marker>
       <MapUpdater location={location} zoomLevel={zoomLevel} />
     </MapContainer>
   );
