@@ -4,7 +4,7 @@ import Map from "./components/Map";
 import { useEffect, useState } from "react";
  
 function App() {
-  const [location, setLocation] = useState([51.505, -0.09]); // Default location (London)
+  const [location, setLocation] =useState([1.3521, 103.8198]); // Default location (London)
 
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
