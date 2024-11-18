@@ -34,7 +34,7 @@ function App() {
   return (
     <div className="App">
       <div>
-        <button style={{ display: distance <= 15 ? 'block' : 'none' }} onClick={playAudio}>Play Audio</button>
+        <button style={{ display: distance <= 5 ? 'block' : 'none' }} onClick={playAudio}>Play Audio</button>
         {distance && <p>Distance to target: {distance.toFixed(2)} meters</p>}
       </div>
       <Map location={location} targetLocation={targetLocation} />
