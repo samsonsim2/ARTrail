@@ -12,7 +12,7 @@ function App() {
     audio.play();
   };
  
-  const targetLocation = { lat:    1.3180789479021646, lng:103.91234861705682 };
+  const targetLocation = { lat:      1.3188734907137656, lng: 103.91210266711957 };
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
