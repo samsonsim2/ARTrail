@@ -3,10 +3,10 @@ import { useMap } from 'react-leaflet';
 
 const MapUpdater = ({ location, zoomLevel }) => {
   const map = useMap();
-
+ 
   useEffect(() => {
     if (location) {
-      map.flyTo(location, 18, { duration: 2 });
+      map.flyTo(location, 18, { duration: 1 });
     }
   }, [location, zoomLevel, map]);
 
