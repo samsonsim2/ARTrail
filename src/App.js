@@ -81,7 +81,9 @@ function App() {
 
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
-
+  const handleClick = () => {
+    window.location.href = 'https://snap-test2.vercel.app/'; 
+  };
   return (
     <div className="App">
       <div>
@@ -90,6 +92,13 @@ function App() {
           onClick={playAudio}
         >
           Play Audio
+        </button>
+
+        <button
+         
+          onClick={handleClick}
+        >
+          Launch AR
         </button>
         {distance && <p>Distance to target: {distance.toFixed(2)} meters</p>}
         {distanceToNearestStop}
