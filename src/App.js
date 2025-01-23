@@ -82,7 +82,7 @@ function App() {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
   const handleClick = () => {
-    window.location.href = 'https://snap-test2.vercel.app/'; 
+    window.location.href = 'https://camerakit-web-w-recordfeature-bbei.vercel.app/'; 
   };
   return (
     <div className="App">
