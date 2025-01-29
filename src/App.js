@@ -47,7 +47,7 @@ const App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       getPostiion();
-    }, 100);
+    }, 1000);
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, []);
