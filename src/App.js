@@ -39,7 +39,7 @@ const App = () => {
           console.error("Error getting location:", error);
         }
       );
-    }, [map,location]);
+    }, [map, location]);
 
     return null;
   };
@@ -47,27 +47,32 @@ const App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       getPostiion();
-  
     }, 1000);
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, []);
   return (
     // Initialise Map
-    <MapContainer
-      center={location}
-      zoom={18}
-      style={{ height: "100vh", width: "100%" }}
-      ref={mapRef}
-    >
-      <TileLayer
-        url="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-      />
-      <CenterToLocation />
-      <Marker position={location}></Marker>
-      <Circle ref={circleRef} center={location}></Circle>
-    </MapContainer>
+
+    <div style={{ postion: "relative" ,height: "100vh", width: "100%"  }} >
+      <div style={{ postion: "absolute", top: 50, zIndex: 100 }}>
+        Your Position is {location[0]} and {location[1]}
+      </div>
+      <MapContainer
+        center={location}
+        zoom={18}
+        style={{ height: "100vh", width: "100%" }}
+        ref={mapRef}
+      >
+        <TileLayer
+          url="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+        />
+        <CenterToLocation />
+        <Marker position={location}></Marker>
+        <Circle ref={circleRef} center={location}></Circle>
+      </MapContainer>
+    </div>
   );
 };
 
