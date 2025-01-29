@@ -34,6 +34,7 @@ const App = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           map.setView([latitude, longitude], 18);
+          console.log("set view")
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -45,11 +46,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      getPostiion();
-    }, 1000);
+    console.log("test");
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        setLocation([position.coords.latitude, position.coords.longitude]);
+      },
+      (error) => console.error(error),
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
+    );
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => navigator.geolocation.clearWatch(watchId);
   }, []);
   return (
     // Initialise Map
