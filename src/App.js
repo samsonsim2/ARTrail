@@ -68,14 +68,15 @@ const App = () => {
 
     let threshold = 60;
     let inside = false;
-    let minDistance = Infinity;
+    let minDistance = null;
 
     geoFences.forEach((fence) => {
       let currentLatLng = L.latLng(lat, long);
       let targetLatLng = L.latLng(fence.lat, fence.lng);
       let currentDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
-
+  
       if (currentDistance < minDistance) {
+        minDistance = currentDistance
         setNameOfNearestStop(fence.name);
         setDistanceToNearestStop(currentDistance);
       }
