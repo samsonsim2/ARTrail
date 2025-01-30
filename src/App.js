@@ -5,11 +5,28 @@ import { motion } from "framer-motion";
 import L from "leaflet";
 import Map from "./components/Map";
 const App = () => {
+  const geoFences = [
+    {
+      id: 1,
+      name: "Location A",
+      lat: 1.3188734907137656,
+      lng: 103.91210266711957,
+      radius: 500,
+    }, // San Francisco
+    {
+      id: 2,
+      name: "Location B",
+      lat: 1.3177262923880713,
+      lng: 103.91245801321173,
+      radius: 700,
+    }, // Los Angeles
+  ];
+
   const [location, setLocation] = useState([1.3521, 103.8198]); // Default location (Singapore)
   const mapRef = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [distanceToNearestStop,setDistanceToNearestStop] = useState(0)
-
+  const [distanceToNearestStop, setDistanceToNearestStop] = useState(0);
+  const [nameOfNearestStop, setNameOfNearestStop] = useState(null);
   //Sample Bus Stop
   const targetLocation = { lat: 1.3188734907137656, lng: 103.91210266711957 };
 
@@ -37,16 +54,40 @@ const App = () => {
   };
   //Check if user is near bustop
   const checkProximity = (lat, long) => {
-    let threshold = 90;
-    let currentLatLng = L.latLng(lat, long);
-    const targetLatLng = L.latLng(targetLocation.lat, targetLocation.lng);
-    const calculatedDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
-    setDistanceToNearestStop(calculatedDistance)
-    if (calculatedDistance < threshold) {
-      console.log(calculatedDistance);
+    // let threshold = 50;
+    // let currentLatLng = L.latLng(lat, long);
+    // const targetLatLng = L.latLng(targetLocation.lat, targetLocation.lng);
+    // const calculatedDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
+    // setDistanceToNearestStop(calculatedDistance);
+    // if (calculatedDistance < threshold) {
+    //   console.log(calculatedDistance);
+    //   setIsModalVisible(true);
+    // } else {
+    //   setIsModalVisible(false);
+    // }
+
+    let threshold = 60;
+    let inside = false;
+    let minDistance = Infinity;
+
+    geoFences.forEach((fence) => {
+      let currentLatLng = L.latLng(lat, long);
+      let targetLatLng = L.latLng(fence.lat, fence.lng);
+      let currentDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
+
+      if (currentDistance < minDistance) {
+        setNameOfNearestStop(fence.name);
+        setDistanceToNearestStop(currentDistance);
+      }
+
+      // if (calculatedDistance < threshold) {
+      //   inside = true;
+      // }
+    });
+    console.log(nameOfNearestStop);
+    if (inside) {
       setIsModalVisible(true);
-    }
-    else{
+    } else {
       setIsModalVisible(false);
     }
   };
@@ -67,7 +108,7 @@ const App = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  // Launch AR
+  // Redirect URL
   const handleClick = () => {
     window.location.href =
       "https://camerakit-web-w-recordfeature-bbei.vercel.app/";
@@ -93,25 +134,31 @@ const App = () => {
           url="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
+
+        {/*Centers map on user location*/}
         <CenterToLocation />
+
         {/*User location*/}
         <Marker position={location}></Marker>
-        {/*Sample Bus Stop location*/}
-        <Circle center={targetLocation}></Circle>
         <Circle center={location}></Circle>
+
+        {/*Sample Bus Stop location*/}
+        {geoFences?.map(({ lat, lng }, index) => (
+          <Circle center={{ lat, lng }}></Circle>
+        ))}
       </MapContainer>
 
+      {/*Launch AR Modal*/}
       <motion.div
-        initial={{ scale: 0,x: "-50%",y:"50%" }}
+        initial={{ scale: 0, x: "-50%", y: "50%" }}
         animate={{ scale: isModalVisible ? 1 : 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         translate=""
         style={{
-          
           position: "absolute",
           top: "80px",
           left: "50%",
- 
+
           backgroundColor: "rgba(86, 86, 86, 0.5)",
           padding: "10px",
           zIndex: 1000, // Ensure it’s on top of the map
@@ -119,7 +166,6 @@ const App = () => {
       >
         <button onClick={handleClick}>Launch AR</button>
       </motion.div>
-
 
       {/*debug distance*/}
       <div
@@ -134,7 +180,7 @@ const App = () => {
           zIndex: 1000, // Ensure it’s on top of the map
         }}
       >
-      Distance to Bus stop: {distanceToNearestStop}
+        Distance to {nameOfNearestStop}: {distanceToNearestStop}
       </div>
     </div>
   );
