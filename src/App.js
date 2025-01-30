@@ -68,7 +68,7 @@ const App = () => {
 
     let threshold = 60;
     let inside = false;
-    let minDistance = null;
+    let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
       let currentLatLng = L.latLng(lat, long);
