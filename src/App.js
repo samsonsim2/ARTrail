@@ -6,12 +6,13 @@ import { motion } from "framer-motion";
 import L from "leaflet";
 import Map from "./components/Map";
 const App = () => {
+  
   const geoFences = [
     {
       id: 1,
       name: "Location A",
-      lat: 1.3188734907137656,
-      lng: 103.91210266711957,
+      lat: 1.3183415025946976, 
+      lng:  103.91165882849064,
       radius: 500,
     }, // San Francisco
     {
@@ -55,19 +56,9 @@ const App = () => {
   };
   //Check if user is near bustop
   const checkProximity = (lat, long) => {
-    // let threshold = 50;
-    // let currentLatLng = L.latLng(lat, long);
-    // const targetLatLng = L.latLng(targetLocation.lat, targetLocation.lng);
-    // const calculatedDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
-    // setDistanceToNearestStop(calculatedDistance);
-    // if (calculatedDistance < threshold) {
-    //   console.log(calculatedDistance);
-    //   setIsModalVisible(true);
-    // } else {
-    //   setIsModalVisible(false);
-    // }
 
-    let threshold = 50;  
+
+    let threshold = 30;  
     let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
@@ -144,7 +135,7 @@ const App = () => {
         {/*Sample Bus Stop location*/}
         {geoFences?.map(({ lat, lng,name }, index) => (
           <>
-          <Circle center={{ lat, lng }}>
+          <Circle center={{ lat, lng }} color="green">
           <Tooltip  permanent >{name}</Tooltip>
           </Circle>
           </>
@@ -178,12 +169,13 @@ const App = () => {
           left: "50%",
 
           transform: "translate(-50%, -50%)",
-          backgroundColor: "rgba(86, 86, 86, 0.5)",
+          backgroundColor: "rgba(255, 255, 255, 0.65)",
           padding: "10px",
+          border:"solid grey 2px",
           zIndex: 1000, // Ensure it’s on top of the map
         }}
       >
-        Distance to {nameOfNearestStop}: {distanceToNearestStop}
+        Distance to <strong>{nameOfNearestStop}</strong>: <span style={{ color: isModalVisible ? "green" : "red" }}>{distanceToNearestStop}</span>
       </div>
     </div>
   );
