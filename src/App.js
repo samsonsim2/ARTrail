@@ -1,7 +1,8 @@
-import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Circle, Tooltip } from "react-leaflet";
 import { useEffect, useState, useRef } from "react";
 import { useMap } from "react-leaflet";
 import { motion } from "framer-motion";
+ 
 import L from "leaflet";
 import Map from "./components/Map";
 const App = () => {
@@ -66,7 +67,7 @@ const App = () => {
     //   setIsModalVisible(false);
     // }
 
-    let threshold = 40;  
+    let threshold = 50;  
     let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
@@ -141,8 +142,12 @@ const App = () => {
         <Circle center={location}></Circle>
 
         {/*Sample Bus Stop location*/}
-        {geoFences?.map(({ lat, lng }, index) => (
-          <Circle center={{ lat, lng }}></Circle>
+        {geoFences?.map(({ lat, lng,name }, index) => (
+          <>
+          <Circle center={{ lat, lng }}>
+          <Tooltip  permanent >{name}</Tooltip>
+          </Circle>
+          </>
         ))}
       </MapContainer>
 
