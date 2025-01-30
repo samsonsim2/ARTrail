@@ -37,7 +37,7 @@ const App = () => {
   };
   //Check if user is near bustop
   const checkProximity = (lat, long) => {
-    let threshold = 80;
+    let threshold = 90;
     let currentLatLng = L.latLng(lat, long);
     const targetLatLng = L.latLng(targetLocation.lat, targetLocation.lng);
     const calculatedDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
@@ -45,6 +45,9 @@ const App = () => {
     if (calculatedDistance < threshold) {
       console.log(calculatedDistance);
       setIsModalVisible(true);
+    }
+    else{
+      setIsModalVisible(false);
     }
   };
 
@@ -99,15 +102,16 @@ const App = () => {
       </MapContainer>
 
       <motion.div
-        initial={{ scale: 0 }}
+        initial={{ scale: 0,x: "-50%",y:"50%" }}
         animate={{ scale: isModalVisible ? 1 : 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
+        translate=""
         style={{
+          
           position: "absolute",
           top: "80px",
           left: "50%",
-
-          transform: "translate(-50%, -50%)",
+ 
           backgroundColor: "rgba(86, 86, 86, 0.5)",
           padding: "10px",
           zIndex: 1000, // Ensure it’s on top of the map
@@ -115,6 +119,8 @@ const App = () => {
       >
         <button onClick={handleClick}>Launch AR</button>
       </motion.div>
+
+
       {/*debug distance*/}
       <div
         style={{
