@@ -66,8 +66,7 @@ const App = () => {
     //   setIsModalVisible(false);
     // }
 
-    let threshold = 60;
-    let inside = false;
+    let threshold = 40;  
     let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
@@ -81,12 +80,10 @@ const App = () => {
         setDistanceToNearestStop(currentDistance);
       }
 
-      // if (calculatedDistance < threshold) {
-      //   inside = true;
-      // }
+     
     });
     console.log(nameOfNearestStop);
-    if (inside) {
+    if (minDistance < threshold) {
       setIsModalVisible(true);
     } else {
       setIsModalVisible(false);
