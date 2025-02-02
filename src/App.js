@@ -58,7 +58,7 @@ const App = () => {
   const checkProximity = (lat, long) => {
 
 
-    let threshold = 30;  
+    let threshold = 90;  {/* distance to activate the AR*/}
     let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
@@ -101,7 +101,8 @@ const App = () => {
   // Redirect URL
   const handleClick = () => {
     window.location.href =
-      "https://camerakit-web-w-recordfeature-bbei.vercel.app/";
+      // "https://camerakit-web-w-recordfeature-bbei.vercel.app/";
+      "https://vt.tiktok.com/ZSjw3bPKU/"
   };
   return (
     // Initialise Map
