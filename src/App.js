@@ -1,18 +1,23 @@
-import { MapContainer, TileLayer, Marker, Circle, Tooltip } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Circle,
+  Tooltip,
+} from "react-leaflet";
 import { useEffect, useState, useRef } from "react";
 import { useMap } from "react-leaflet";
 import { motion } from "framer-motion";
- 
+
 import L from "leaflet";
 import Map from "./components/Map";
 const App = () => {
-  
   const geoFences = [
     {
       id: 1,
       name: "Location A",
-      lat: 1.3183415025946976, 
-      lng:  103.91165882849064,
+      lat: 1.3183415025946976,
+      lng: 103.91165882849064,
       radius: 500,
     }, // San Francisco
     {
@@ -56,23 +61,22 @@ const App = () => {
   };
   //Check if user is near bustop
   const checkProximity = (lat, long) => {
-
-
-    let threshold = 90;  {/* distance to activate the AR*/}
+    let threshold = 90;
+    {
+      /* distance to activate the AR*/
+    }
     let minDistance = Infinity;
 
     geoFences.forEach((fence) => {
       let currentLatLng = L.latLng(lat, long);
       let targetLatLng = L.latLng(fence.lat, fence.lng);
       let currentDistance = currentLatLng.distanceTo(targetLatLng); // distance in meters
-  
+
       if (currentDistance < minDistance) {
-        minDistance = currentDistance
+        minDistance = currentDistance;
         setNameOfNearestStop(fence.name);
         setDistanceToNearestStop(currentDistance);
       }
-
-     
     });
     console.log(nameOfNearestStop);
     if (minDistance < threshold) {
@@ -100,9 +104,20 @@ const App = () => {
 
   // Redirect URL
   const handleClick = () => {
-    window.location.href =
-      // "https://camerakit-web-w-recordfeature-bbei.vercel.app/";
-      "https://vt.tiktok.com/ZSjw3bPKU/"
+    // Redirect to an AR Filter
+    // window.location.href =
+    //   // "https://camerakit-web-w-recordfeature-bbei.vercel.app/";
+    //   "https://vt.tiktok.com/ZSjw3bPKU/"
+
+    //Play Audio
+    if (nameOfNearestStop == "Location A") {
+      const audio = new Audio("/Sample1.mp3");
+      audio.play();
+    }else{
+      const audio = new Audio("/Sample2.mp3");
+      audio.play();
+
+    }
   };
   return (
     // Initialise Map
@@ -134,11 +149,11 @@ const App = () => {
         <Circle center={location}></Circle>
 
         {/*Sample Bus Stop location*/}
-        {geoFences?.map(({ lat, lng,name }, index) => (
+        {geoFences?.map(({ lat, lng, name }, index) => (
           <>
-          <Circle center={{ lat, lng }} color="green">
-          <Tooltip  permanent >{name}</Tooltip>
-          </Circle>
+            <Circle center={{ lat, lng }} color="green">
+              <Tooltip permanent>{name}</Tooltip>
+            </Circle>
           </>
         ))}
       </MapContainer>
@@ -172,11 +187,14 @@ const App = () => {
           transform: "translate(-50%, -50%)",
           backgroundColor: "rgba(255, 255, 255, 0.65)",
           padding: "10px",
-          border:"solid grey 2px",
+          border: "solid grey 2px",
           zIndex: 1000, // Ensure it’s on top of the map
         }}
       >
-        Distance to <strong>{nameOfNearestStop}</strong>: <span style={{ color: isModalVisible ? "green" : "red" }}>{distanceToNearestStop}</span>
+        Distance to <strong>{nameOfNearestStop}</strong>:{" "}
+        <span style={{ color: isModalVisible ? "green" : "red" }}>
+          {distanceToNearestStop}
+        </span>
       </div>
     </div>
   );
