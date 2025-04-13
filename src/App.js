@@ -13,18 +13,35 @@ import L from "leaflet";
 import Map from "./components/Map";
 const App = () => {
   const geoFences = [
+    // {
+    //   id: 1,
+    //   name: "Location A",
+    //   lat: 1.3183415025946976,
+    //   lng: 103.91165882849064,
+    //   radius: 500,
+    // }, // San Francisco
+    // {
+    //   id: 2,
+    //   name: "Location B",
+    //   lat: 1.3177262923880713,
+    //   lng: 103.91245801321173,
+    //   radius: 700,
+    // }, // Los Angeles
+
+
+ 
     {
       id: 1,
       name: "Location A",
-      lat: 1.3183415025946976,
-      lng: 103.91165882849064,
+      lat: 1.3188799165246308,
+      lng: 103.91209595025407,
       radius: 500,
     }, // San Francisco
     {
       id: 2,
       name: "Location B",
-      lat: 1.3177262923880713,
-      lng: 103.91245801321173,
+      lat:  1.3184802261351496,
+      lng: 103.91001512870754,
       radius: 700,
     }, // Los Angeles
   ];
@@ -151,7 +168,7 @@ const App = () => {
         {/*Sample Bus Stop location*/}
         {geoFences?.map(({ lat, lng, name }, index) => (
           <>
-            <Circle center={{ lat, lng }} color="green">
+            <Circle center={{ lat, lng }} color="green" radius={90}>
               <Tooltip permanent>{name}</Tooltip>
             </Circle>
           </>
@@ -174,7 +191,7 @@ const App = () => {
           zIndex: 1000, // Ensure it’s on top of the map
         }}
       >
-        <button onClick={handleClick}>Launch AR</button>
+        <button onClick={handleClick}>Play Audio</button>
       </motion.div>
 
       {/*debug distance*/}
